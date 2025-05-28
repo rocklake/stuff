@@ -17,7 +17,24 @@ queue_spot = 0
 dm = 0
 dp = 0
 result = 0
+join_time_h = 20
+join_time_m = 14
 os_name = platform.system()
+print("waiting for target time...")
+while True:
+    now = datetime.now()
+    hour = now.hour
+    minute = now.minute
+    if hour < join_time_h:
+        if minute < join_time_m: 
+            c = open("tochat.txt", "w", encoding='utf-8')
+            c.write(".disconnect")
+            c.close()
+        else:
+            break
+    else:
+        break
+    time.sleep(20)
 def data():
     global lcread
     global dp
