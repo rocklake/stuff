@@ -1,3 +1,4 @@
+ai = False
 import random
 import string
 import re
@@ -5,15 +6,18 @@ import time
 from datetime import datetime, timedelta
 import threading
 import os
-import joblib # ai
-import pandas as pd # ai
-model = joblib.load("2b2t_queue_model.pkl") # ai
+import platform
+if ai == True:
+    import joblib # ai
+    import pandas as pd # ai
+    model = joblib.load("2b2t_queue_model.pkl") # ai
 msg = "i am currently AFK and this is a new feature i added to my custom client so if it breaks and starts spamming you sorry"
 lcread = ""
 queue_spot = 0
 dm = 0
 dp = 0
 result = 0
+os_name = platform.system()
 def data():
     global lcread
     global dp
@@ -98,18 +102,20 @@ queue_spot_start = queue_spot
 start_time = time.time()
 while True:
     time_now = time.time()
-    week = datetime.today().weekday() # ai
-    now = datetime.now() # ai
-    hour = now.hour # ai
-    minute = now.minute # ai
-    second = now.second # ai
-    if week < 5: # ai
-        is_weekend = 0 # ai
-    else: # ai
-        is_weekend = 1 # ai
-    X_input = pd.DataFrame([[is_weekend, hour, minute, second]], columns=["IsWeekend", "Hour", "Minute", "Second"]) # ai
-    prediction = model.predict(X_input) # ai
-#    prediction = [0.01, "null"] # no ai
+    if ai == True:
+        week = datetime.today().weekday() # ai
+        now = datetime.now() # ai
+        hour = now.hour # ai
+        minute = now.minute # ai
+        second = now.second # ai
+        if week < 5: # ai
+            is_weekend = 0 # ai
+        else: # ai
+            is_weekend = 1 # ai
+        X_input = pd.DataFrame([[is_weekend, hour, minute, second]], columns=["IsWeekend", "Hour", "Minute", "Second"]) # ai
+        prediction = model.predict(X_input) # ai
+    if ai == False:
+        prediction = [0.01, "null"] # no ai
     t2p = (queue_spot_start - queue_spot) / (time_now - start_time) * 60
     print("""
 =========================
@@ -123,4 +129,7 @@ dm    :""", dm ,"""
 logs:
 """ + lcread)
     time.sleep(0.4)
-    os.system("cls")
+    if os_name == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
